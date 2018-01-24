@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="hutubiApp">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script src="../public/js/jquery.min.js"></script>
+    <script src="../public/echarts/echarts-all.js"></script>
+    <script src="../public/js/hb_common.js"></script>
+    <link rel="stylesheet" href="../public/css/hb_pc.css">
+    <title>报表测试</title>
+</head>
+<body >
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main" style="width: 600px;height:400px;"></div>
+</body>
+<script>
+
+    var responseData = {
+        "status": 1,
+        "msg": "获取数据成功",
+        "data": {
+            "date":["2016-08-01","2016-08-02","2016-08-03","2016-08-04","2016-08-05","2016-08-06","2016-08-07","2016-08-08","2016-08-09","2016-08-10","2016-08-11","2016-08-12","2016-08-13","2016-08-14","2016-08-15","2016-08-16","2016-08-17","2016-08-18","2016-08-19","2016-08-20","2016-08-21","2016-08-22","2016-08-23","2016-08-24","2016-08-25","2016-08-26","2016-08-27","2016-08-28","2016-08-29","2016-08-30","2016-08-31","2016-09-01","2016-09-02","2016-09-03","2016-09-04","2016-09-05","2016-09-06","2016-09-07","2016-09-08","2016-09-09","2016-09-10","2016-09-11","2016-09-12","2016-09-13","2016-09-14","2016-09-15","2016-09-16","2016-09-17","2016-09-18","2016-09-19","2016-09-20","2016-09-21","2016-09-22","2016-09-23","2016-09-24","2016-09-25","2016-09-26","2016-09-27","2016-09-28","2016-09-29","2016-09-30"],
+            "count":["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","3","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
+        },
+        "model": "贷款",
+        "source": ""
+    };
+
+    /*
+     * 接收配置参数，重新绘图
+     * */
+    function resetEcharts(mySetting){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '商品销量'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                //类目轴中 boundaryGap 可以配置为 true 和 false。默认为 true，这时候刻度只是作为分隔线，标签和数据点都会在两个刻度之间的带(band)中间。
+                boundaryGap:false,
+                //坐标轴刻度标签的相关设置。
+//               axisLabel :{
+//                   //坐标轴刻度标签的显示间隔，在类目轴中有效。可以设置成 0 强制显示所有标签。
+//                   interval:0
+//               },
+                data:responseData.data.date
+            },
+            yAxis: {},
+            //自定义属性，可以用作标记信息
+            abc:"huangbiao",
+            //true 显示所有的节点，但是允许拖动，鼠标显示拖拽样式
+            //false 显示部分节点，但是不允许拖动，鼠标显示可点击
+            calculable : true,
+            series: [{
+                //节点的样式,triangle为三角形，circle为原点，默认值
+                symbol:"circle",
+                name: '销量',
+                type: 'line',
+                data: responseData.data.count
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        //给节点添加click事件
+        /*
+         * 事件处理函数。格式为:(event: Object)
+         * 可选。回调函数内部的context，即this的指向。
+         * */
+        myChart.on('click', function (handler,context){
+            console.dir(handler);
+            console.dir(context);
+            //获取节点点击的数组序号
+            var arrayIndex = handler.dataIndex;
+            //获取数据
+            var urlParam = responseData.data.date[arrayIndex];
+        });
+    }
+
+
+    $(function(){
+        var screenWidth = getScreenWidth();
+        $("#main").css("width",screenWidth+"px");
+
+        resetEcharts();
+    });
+</script>
+</html>

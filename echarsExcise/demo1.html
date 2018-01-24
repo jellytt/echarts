@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="main" style="width:600px;height:600px"></div>
+<script src="js/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/echarts/4.0.2/echarts.js"></script>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+var Num= [
+        320, 332, 225, 334,
+        {
+                value: 390,
+                symbol: 'image://./img/1.png',
+                symbolSize : 20,
+                symbolRotate : 10,
+                itemStyle: {        // 数据级个性化折线样式
+                        normal: {
+                                color: 'yellowgreen'
+                                },
+                        emphasis: {
+                                color: 'orange',
+                                label : {
+                                        show: true,
+                                        position: 'inside',
+                                        textStyle : {
+                                                fontSize : '20'
+                                                }
+                                        }
+                                }
+                        }
+                },
+        330, 320
+        ];
+    var responseData=[320,332,225,390,334];
+    for(var i=0;i<responseData.length;i++){
+        if(responseData[i]>380){
+            responseData[i]=        {
+                value: responseData[i],
+                symbol: 'image://./img/1.png',
+                symbolSize : 20,
+                symbolRotate : 10,
+                itemStyle: {        // 数据级个性化折线样式
+                    normal: {
+                        color: 'yellowgreen'
+                    },
+                    emphasis: {
+                        color: 'orange',
+                        label : {
+                            show: true,
+                            position: 'inside',
+                            textStyle : {
+                                fontSize : '20'
+                            }
+                        }
+                    }
+                }
+            }
+        }else if(responseData[i]>320){
+            responseData[i]=        {
+                value: responseData[i],
+                symbol: 'image://./img/2.png',
+                symbolSize : 20,
+                symbolRotate : 10,
+                itemStyle: {        // 数据级个性化折线样式
+                    normal: {
+                        color: 'yellowgreen'
+                    },
+                    emphasis: {
+                        color: 'orange',
+                        label : {
+                            show: true,
+                            position: 'inside',
+                            textStyle : {
+                                fontSize : '20'
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            responseData[i]=        {
+                value: responseData[i],
+                symbol: 'image://./img/3.png',
+                symbolSize : 20,
+                symbolRotate : 10,
+                itemStyle: {        // 数据级个性化折线样式
+                    normal: {
+                        color: 'yellowgreen'
+                    },
+                    emphasis: {
+                        color: 'orange',
+                        label : {
+                            show: true,
+                            position: 'inside',
+                            textStyle : {
+                                fontSize : '20'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+   var  option = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['邮件营销','联盟广告','直接访问','搜索引擎']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['周一','周二','周三','周四','周五','周六','周日']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+
+            {
+                name:'直接访问',
+                type:'line',
+                stack: '总量',
+                symbol: 'arrow',
+                symbolSize: 6,
+                symbolRotate: -45,
+                itemStyle: {
+                    normal: {
+                        color: 'red',
+                        lineStyle: {        // 系列级个性化折线样式
+                            width: 2
+                            //type: 'dashed'
+                        }
+                    },
+                    emphasis: {
+                        color: 'blue'
+                    }
+                },
+                data:responseData
+            }
+        ]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    myChart.on('click', function (handler,context){
+       // console.log(handler);
+       // console.log(context);
+        //获取节点点击的数组序号
+        //var arrayIndex = handler.dataIndex;
+        //获取数据
+        var urlParam = handler.name;
+        //console.log();
+        console.log(urlParam);
+    });
+
+
+</script>
+</body>
+</html>
